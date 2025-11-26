@@ -17,7 +17,7 @@ export default function Dashboard(props) {
   const { ...rest } = props;
   // states and functions
   const [fixed] = useState(false);
-  const [toggleSidebar, setToggleSidebar] = useState(false);
+  const [toggleSidebar, setToggleSidebar] = useState(true);
   // functions for changing the states from components
   const getRoute = () => {
     return window.location.pathname !== '/admin/full-screen-maps';
@@ -136,12 +136,12 @@ export default function Dashboard(props) {
             overflow="auto"
             position="relative"
             maxHeight="100%"
-            w={{ base: '100%', xl: 'calc( 100% - 290px )' }}
-            maxWidth={{ base: '100%', xl: 'calc( 100% - 290px )' }}
-            transition="all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
-            transitionDuration=".2s, .2s, .35s"
-            transitionProperty="top, bottom, width"
-            transitionTimingFunction="linear, linear, ease"
+            w={{ base: '100%', xl: toggleSidebar ? 'calc( 100% - 300px )' : '100%' }}
+            maxWidth={{ base: '100%', xl: toggleSidebar ? 'calc( 100% - 300px )' : '100%' }}
+            transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+            transitionDuration=".3s"
+            transitionProperty="width, max-width"
+            transitionTimingFunction="cubic-bezier(0.4, 0, 0.2, 1)"
           >
             <Portal>
               <Box>

@@ -347,3 +347,62 @@ input:focus {
 .lang-switch-animation {
   animation: fadeIn 0.3s ease;
 }
+
+/* ==================== Sidebar Toggle Button Styles ==================== */
+
+/* Smooth sidebar toggle animation */
+.sidebar-toggle-button {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Sidebar slide animation */
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* RTL support for sidebar animations */
+[dir="rtl"] .sidebar-slide-in {
+  animation: slideInFromRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-slide-in {
+  animation: slideInFromLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Toggle button pulse effect on hover */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.sidebar-toggle-button:hover {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Smooth content transition when sidebar toggles */
+.main-content-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
