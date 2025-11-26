@@ -1,0 +1,349 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap");
+
+body {
+  font-family: "DM Sans", sans-serif;
+}
+
+/* RTL Support for Arabic */
+html[dir="rtl"] body,
+[dir="rtl"] body {
+  font-family: "Tajawal", "DM Sans", sans-serif;
+}
+
+html[dir="rtl"] {
+  text-align: right;
+}
+
+/* RTL specific styles */
+[dir="rtl"] input,
+[dir="rtl"] textarea {
+  text-align: right;
+}
+
+[dir="rtl"] input::placeholder,
+[dir="rtl"] textarea::placeholder {
+  text-align: right;
+}
+
+/* Light Mode Background Color */
+.chakra-ui-light body,
+html:not([data-theme="dark"]) body,
+[data-theme="light"] body {
+  background-color: #f3f3f3 !important;
+}
+
+option {
+  color: black;
+}
+
+/* Sidebar Link Styles - All Links */
+a.sidebar-link,
+a[href*="/admin"],
+a[href*="/auth"],
+a[href*="/rtl"] {
+  border-radius: 20px !important;
+  float: left !important;
+  height: auto !important;
+  list-style: none !important;
+  padding: 10px !important;
+  transition: 0.2s ease-in-out !important;
+  width: 100% !important;
+  display: block !important;
+  margin-bottom: 4px;
+  text-decoration: none;
+}
+
+/* Sidebar Link Hover Effect */
+a.sidebar-link:hover:not(.active),
+a[href*="/admin"]:hover:not(.active),
+a[href*="/auth"]:hover:not(.active),
+a[href*="/rtl"]:hover:not(.active) {
+  background: var(--hover-bg, rgba(231, 115, 36, 0.1)) !important;
+  cursor: pointer;
+}
+
+/* Sidebar Active Link Styles */
+a.active {
+  background: var(--active-bg, #f5c3a1) !important;
+  border: var(--active-border, none) !important;
+}
+
+/* Dark Mode Styles for Active Link - Fallback */
+[data-theme="dark"] a.active,
+.chakra-ui-dark a.active,
+html[data-theme="dark"] a.active {
+  background: var(--active-bg, rgba(231, 115, 36, 0.25)) !important;
+  border: var(--active-border, 1px solid rgba(231, 115, 36, 0.5)) !important;
+}
+
+/* Active Icon Styles */
+a.active .active-icon,
+a.active [class*="active-icon"],
+a.sidebar-link.active .active-icon,
+a.sidebar-link.active [class*="active-icon"] {
+  color: var(--chakra-colors-brand-500) !important;
+  -webkit-margin-end: 18px !important;
+  margin-inline-end: 18px !important;
+  background: #fff !important;
+  padding: 5px !important;
+  border-radius: 50% !important;
+  line-height: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Dark Mode Active Icon Styles */
+[data-theme="dark"] a.active .active-icon,
+.chakra-ui-dark a.active .active-icon,
+html[data-theme="dark"] a.active .active-icon,
+[data-theme="dark"] a.sidebar-link.active .active-icon,
+.chakra-ui-dark a.sidebar-link.active .active-icon {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Sign In Page Enhancements */
+/* Smooth transitions for form inputs */
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  transition: all 0.2s ease !important;
+}
+
+/* Enhanced focus states */
+input:focus {
+  outline: none !important;
+}
+
+/* Card animation on load */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply animation to sign in card */
+.chakra-ui-light [class*="chakra-flex"]:has(> form),
+.chakra-ui-light [class*="chakra-flex"]:has(> [class*="chakra-form-control"]) {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Custom Login Page Styles */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.login-container {
+  font-family: "Poppins", sans-serif;
+}
+
+/* Login Form Section */
+.login-logo {
+  text-align: center;
+}
+
+.login-logo img {
+  max-width: 250px;
+}
+
+.login-welcome-text {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.03em;
+  color: #7c7c7c;
+  text-align: center;
+  margin: 10px 0 20px 0;
+}
+
+/* Input Fields */
+.login-input {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e7e7e7;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 10px 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.login-input:focus {
+  border-color: #e77324;
+  outline: none;
+  box-shadow: none;
+}
+
+/* Forgot Password Link */
+.forgot-password-link {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  letter-spacing: 0.03em;
+  color: #4d4d4d;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
+/* Login Button */
+.login-button {
+  background: #e77324;
+  border: 1px solid #e77324;
+  border-radius: 6px;
+  width: 100%;
+  padding: 10px;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  background: #d56520;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(231, 115, 36, 0.3);
+}
+
+.login-button:disabled {
+  background: #cccccc;
+  border-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Welcome Section */
+.welcome-section {
+  background: #fcebdf;
+  mix-blend-mode: normal;
+  border-radius: 7px;
+  padding: 50px 15px;
+}
+
+.welcome-heading {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 54px;
+  letter-spacing: 0.03em;
+  color: #005099;
+}
+
+.welcome-text {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.03em;
+  color: #7c7c7c;
+}
+
+.welcome-image {
+  text-align: center;
+}
+
+.welcome-image img {
+  width: 100%;
+  margin-top: 35px;
+  max-width: 500px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .welcome-section {
+    display: none;
+  }
+
+  .login-logo img {
+    max-width: 200px;
+  }
+
+  .welcome-heading {
+    font-size: 28px;
+    line-height: 42px;
+  }
+}
+
+/* ==================== RTL (Arabic) Styles ==================== */
+
+/* Language Toggle Button */
+.language-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.language-toggle-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* RTL Login Page */
+[dir="rtl"] .login-welcome-text,
+[dir="rtl"] .welcome-text,
+[dir="rtl"] .welcome-heading {
+  font-family: "Tajawal", "Poppins", sans-serif;
+}
+
+[dir="rtl"] .login-input {
+  text-align: right;
+  font-family: "Tajawal", "Poppins", sans-serif;
+}
+
+[dir="rtl"] .login-button,
+[dir="rtl"] .forgot-password-link {
+  font-family: "Tajawal", "Poppins", sans-serif;
+}
+
+/* RTL Password Input Icon Position */
+[dir="rtl"] .chakra-input__right-element {
+  right: auto;
+  left: 0;
+}
+
+/* RTL Flex Direction */
+[dir="rtl"] .login-flex-row {
+  flex-direction: row-reverse;
+}
+
+/* RTL Text Alignment */
+[dir="rtl"] .text-start {
+  text-align: right;
+}
+
+[dir="rtl"] .text-end {
+  text-align: left;
+}
+
+/* Animation for language switch */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.lang-switch-animation {
+  animation: fadeIn 0.3s ease;
+}
