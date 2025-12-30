@@ -1,151 +1,268 @@
-
-
 // Chakra imports
 import {
-  Avatar,
   Box,
   Flex,
-  FormLabel,
   Icon,
-  Select,
   SimpleGrid,
+  Text,
+  HStack,
   useColorModeValue,
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  StatArrow,
 } from "@chakra-ui/react";
-// Assets
-import Usa from "assets/img/dashboards/usa.png";
 // Custom components
-import MiniCalendar from "components/calendar/MiniCalendar";
-import MiniStatistics from "components/card/MiniStatistics";
+import Card from "components/card/Card.js";
 import IconBox from "components/icons/IconBox";
 import React from "react";
+// Language Context
+import { useLanguage } from "contexts/LanguageContext";
 import {
-  MdAddTask,
+  MdPeople,
   MdAttachMoney,
-  MdBarChart,
-  MdFileCopy,
+  MdTrendingUp,
+  MdShoppingCart,
+  MdGroup,
+  MdEvent,
+  MdDashboard,
 } from "react-icons/md";
-import CheckTable from "views/admin/default/components/CheckTable";
-import ComplexTable from "views/admin/default/components/ComplexTable";
-import DailyTraffic from "views/admin/default/components/DailyTraffic";
-import PieCard from "views/admin/default/components/PieCard";
-import Tasks from "views/admin/default/components/Tasks";
-import TotalSpent from "views/admin/default/components/TotalSpent";
-import WeeklyRevenue from "views/admin/default/components/WeeklyRevenue";
-import {
-  columnsDataCheck,
-  columnsDataComplex,
-} from "views/admin/default/variables/columnsData";
-import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
-import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
+import RecentOrders from "views/admin/default/components/RecentOrders";
+import UpcomingEvents from "views/admin/default/components/UpcomingEvents";
 
-export default function UserReports() {
+// Enhanced Stat Card Component
+function StatCard({ icon, iconBg, iconColor, label, value, growth, growthLabel }) {
+  const textColor = useColorModeValue("secondaryGray.900", "white");
+  const textColorSecondary = useColorModeValue("secondaryGray.600", "secondaryGray.400");
+  const cardBg = useColorModeValue("white", "navy.800");
+  const borderColor = useColorModeValue("gray.100", "whiteAlpha.100");
+  const cardShadow = useColorModeValue(
+    "0px 4px 20px rgba(112, 144, 176, 0.08)",
+    "unset"
+  );
+  const hoverShadow = useColorModeValue(
+    "0px 8px 30px rgba(112, 144, 176, 0.15)",
+    "0px 8px 30px rgba(0, 0, 0, 0.3)"
+  );
+
+  return (
+    <Card
+      p="24px"
+      bg={cardBg}
+      border="1px solid"
+      borderColor={borderColor}
+      borderRadius="20px"
+      boxShadow={cardShadow}
+      transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+      _hover={{
+        transform: "translateY(-4px)",
+        boxShadow: hoverShadow,
+      }}
+      position="relative"
+      overflow="hidden"
+    >
+      {/* Decorative gradient */}
+      <Box
+        position="absolute"
+        top="0"
+        right="0"
+        w="100px"
+        h="100px"
+        bg={iconBg}
+        opacity="0.1"
+        borderRadius="full"
+        transform="translate(30%, -30%)"
+      />
+
+      <Flex align="center" justify="space-between">
+        <Stat>
+          <StatLabel
+            color={textColorSecondary}
+            fontSize="sm"
+            fontWeight="500"
+            mb="8px"
+          >
+            {label}
+          </StatLabel>
+          <StatNumber
+            color={textColor}
+            fontSize={{ base: "2xl", md: "3xl" }}
+            fontWeight="700"
+            letterSpacing="-1px"
+          >
+            {value}
+          </StatNumber>
+          {growth && (
+            <StatHelpText
+              m="0"
+              mt="8px"
+              display="flex"
+              alignItems="center"
+              gap="4px"
+            >
+              <StatArrow type={growth.startsWith("+") ? "increase" : "decrease"} />
+              <Text
+                color={growth.startsWith("+") ? "green.500" : "red.500"}
+                fontSize="sm"
+                fontWeight="600"
+              >
+                {growth}
+              </Text>
+              {growthLabel && (
+                <Text color={textColorSecondary} fontSize="xs" fontWeight="400">
+                  {growthLabel}
+                </Text>
+              )}
+            </StatHelpText>
+          )}
+        </Stat>
+
+        <IconBox
+          w="60px"
+          h="60px"
+          bg={iconBg}
+          borderRadius="16px"
+          icon={<Icon w="28px" h="28px" as={icon} color={iconColor} />}
+          boxShadow={`0 8px 20px ${iconBg}40`}
+        />
+      </Flex>
+    </Card>
+  );
+}
+
+export default function Dashboard() {
+  const { t } = useLanguage();
+  
   // Chakra Color Mode
-  const brandColor = useColorModeValue("brand.500", "white");
-  const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
+  const textColor = useColorModeValue("secondaryGray.900", "white");
+  const textColorSecondary = useColorModeValue("secondaryGray.600", "secondaryGray.400");
+  const iconBg = useColorModeValue("#fff5ed", "rgba(231, 115, 36, 0.15)");
+  const iconColor = useColorModeValue("#e77324", "#F99C58");
+  const orangeGradient = "linear-gradient(135deg, #e77324 0%, #F99C58 100%)";
+
+  // Stats data
+  const stats = [
+    {
+      icon: MdPeople,
+      iconBg: "#fff5ed",
+      iconColor: "#e77324",
+      label: t("dashboard.attendees"),
+      value: "350",
+      growth: "+12%",
+      growthLabel: t("dashboard.sinceLastMonth") || "since last month",
+    },
+    {
+      icon: MdShoppingCart,
+      iconBg: "#e8f5e9",
+      iconColor: "#4caf50",
+      label: t("dashboard.productsSold"),
+      value: "642",
+      growth: "+8%",
+      growthLabel: t("dashboard.sinceLastMonth") || "since last month",
+    },
+    {
+      icon: MdAttachMoney,
+      iconBg: "#e3f2fd",
+      iconColor: "#2196f3",
+      label: t("dashboard.grossSales"),
+      value: "$574.34",
+      growth: "+23%",
+      growthLabel: t("dashboard.sinceLastMonth") || "since last month",
+    },
+    {
+      icon: MdTrendingUp,
+      iconBg: "#fce4ec",
+      iconColor: "#e91e63",
+      label: t("dashboard.totalOrders"),
+      value: "1,000",
+      growth: "+15%",
+      growthLabel: t("dashboard.sinceLastMonth") || "since last month",
+    },
+    {
+      icon: MdGroup,
+      iconBg: "#ede7f6",
+      iconColor: "#673ab7",
+      label: t("dashboard.crewMembers"),
+      value: "3",
+    },
+    {
+      icon: MdEvent,
+      iconBg: "#fff3e0",
+      iconColor: "#ff9800",
+      label: t("dashboard.totalEvents"),
+      value: "10",
+      growth: "+2",
+      growthLabel: t("dashboard.thisMonth") || "this month",
+    },
+  ];
+
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+      {/* Page Header */}
+      <Flex
+        justify="space-between"
+        align={{ base: "stretch", md: "center" }}
+        direction={{ base: "column", md: "row" }}
+        gap="16px"
+        mb="28px"
+      >
+        <Box>
+          <HStack spacing="12px" mb="8px">
+            <Flex
+              w="42px"
+              h="42px"
+              bg={iconBg}
+              borderRadius="12px"
+              align="center"
+              justify="center"
+            >
+              <Icon as={MdDashboard} w="22px" h="22px" color={iconColor} />
+            </Flex>
+            <Text
+              color={textColor}
+              fontSize={{ base: "2xl", md: "3xl" }}
+              fontWeight="700"
+              letterSpacing="-0.5px"
+            >
+              {t("dashboard.title") || "Dashboard"}
+            </Text>
+          </HStack>
+          <Text
+            color={textColorSecondary}
+            fontSize="md"
+            fontWeight="400"
+            pl="54px"
+          >
+            {t("dashboard.subtitle") || "Welcome back! Here's your overview."}
+          </Text>
+        </Box>
+      </Flex>
+
+      {/* Stats Grid */}
       <SimpleGrid
         columns={{ base: 1, md: 2, lg: 3, "2xl": 6 }}
-        gap='20px'
-        mb='20px'>
-        <MiniStatistics
-          startContent={
-            <IconBox
-              w='56px'
-              h='56px'
-              bg={boxBg}
-              icon={
-                <Icon w='32px' h='32px' as={MdBarChart} color={brandColor} />
-              }
-            />
-          }
-          name='Earnings'
-          value='$350.4'
-        />
-        <MiniStatistics
-          startContent={
-            <IconBox
-              w='56px'
-              h='56px'
-              bg={boxBg}
-              icon={
-                <Icon w='32px' h='32px' as={MdAttachMoney} color={brandColor} />
-              }
-            />
-          }
-          name='Spend this month'
-          value='$642.39'
-        />
-        <MiniStatistics growth='+23%' name='Sales' value='$574.34' />
-        <MiniStatistics
-          endContent={
-            <Flex me='-16px' mt='10px'>
-              <FormLabel htmlFor='balance'>
-                <Avatar src={Usa} />
-              </FormLabel>
-              <Select
-                id='balance'
-                variant='mini'
-                mt='5px'
-                me='0px'
-                defaultValue='usd'>
-                <option value='usd'>USD</option>
-                <option value='eur'>EUR</option>
-                <option value='gba'>GBA</option>
-              </Select>
-            </Flex>
-          }
-          name='Your balance'
-          value='$1,000'
-        />
-        <MiniStatistics
-          startContent={
-            <IconBox
-              w='56px'
-              h='56px'
-              bg='linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)'
-              icon={<Icon w='28px' h='28px' as={MdAddTask} color='white' />}
-            />
-          }
-          name='New Tasks'
-          value='154'
-        />
-        <MiniStatistics
-          startContent={
-            <IconBox
-              w='56px'
-              h='56px'
-              bg={boxBg}
-              icon={
-                <Icon w='32px' h='32px' as={MdFileCopy} color={brandColor} />
-              }
-            />
-          }
-          name='Total Projects'
-          value='2935'
-        />
+        gap="20px"
+        mb="28px"
+      >
+        {stats.map((stat, index) => (
+          <StatCard
+            key={index}
+            icon={stat.icon}
+            iconBg={stat.iconBg}
+            iconColor={stat.iconColor}
+            label={stat.label}
+            value={stat.value}
+            growth={stat.growth}
+            growthLabel={stat.growthLabel}
+          />
+        ))}
       </SimpleGrid>
 
-      <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'>
-        <TotalSpent />
-        <WeeklyRevenue />
-      </SimpleGrid>
-      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap='20px' mb='20px'>
-        <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} />
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px'>
-          <DailyTraffic />
-          <PieCard />
-        </SimpleGrid>
-      </SimpleGrid>
-      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap='20px' mb='20px'>
-        <ComplexTable
-          columnsData={columnsDataComplex}
-          tableData={tableDataComplex}
-        />
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px'>
-          <Tasks />
-          <MiniCalendar h='100%' minW='100%' selectRange={false} />
-        </SimpleGrid>
+      {/* Recent Orders & Upcoming Events */}
+      <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
+        <RecentOrders />
+        <UpcomingEvents />
       </SimpleGrid>
     </Box>
   );

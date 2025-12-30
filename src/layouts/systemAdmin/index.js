@@ -4,24 +4,26 @@ import Footer from 'components/footer/FooterAdmin.js';
 // Layout components
 import NavbarAdmin from 'components/navbar/NavbarAdmin.js';
 import NavbarRTL from 'components/navbar/NavbarRTL.js';
-import Sidebar from 'components/sidebar/Sidebar.js';
+import SystemAdminSidebar from 'components/sidebar/SystemAdminSidebar.js';
 import { RtlProvider } from 'components/rtlProvider/RtlProvider.js';
 import { SidebarContext } from 'contexts/SidebarContext';
 import { useLanguage } from 'contexts/LanguageContext';
 import React, { useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import routes from 'routes.js';
+import systemAdminRoutes from 'systemAdminRoutes.js';
 
-// Custom Chakra theme
-export default function Dashboard(props) {
+// System Admin Dashboard Layout
+export default function SystemAdminDashboard(props) {
   const { ...rest } = props;
   // states and functions
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(true);
+  
   // functions for changing the states from components
   const getRoute = () => {
-    return window.location.pathname !== '/admin/full-screen-maps';
+    return window.location.pathname !== '/system-admin/full-screen-maps';
   };
+  
   const getActiveRoute = (routes) => {
     let activeRoute = 'Default Brand Text';
     for (let i = 0; i < routes.length; i++) {
@@ -45,6 +47,7 @@ export default function Dashboard(props) {
     }
     return activeRoute;
   };
+  
   const getActiveNavbar = (routes) => {
     let activeNavbar = false;
     for (let i = 0; i < routes.length; i++) {
@@ -68,6 +71,7 @@ export default function Dashboard(props) {
     }
     return activeNavbar;
   };
+  
   const getActiveNavbarText = (routes) => {
     let activeNavbar = false;
     for (let i = 0; i < routes.length; i++) {
@@ -91,9 +95,10 @@ export default function Dashboard(props) {
     }
     return activeNavbar;
   };
+  
   const getRoutes = (routes) => {
     return routes.map((route, key) => {
-      if (route.layout === '/admin') {
+      if (route.layout === '/system-admin') {
         return (
           <Route path={`${route.path}`} element={route.component} key={key} />
         );
@@ -105,6 +110,7 @@ export default function Dashboard(props) {
       }
     });
   };
+  
   const { onOpen } = useDisclosure();
   const { isRTL } = useLanguage();
   
@@ -128,7 +134,7 @@ export default function Dashboard(props) {
             setToggleSidebar,
           }}
         >
-          <Sidebar routes={routes} display="none" {...rest} />
+          <SystemAdminSidebar routes={systemAdminRoutes} display="none" {...rest} />
           <Box
             float={isRTL ? "left" : "right"}
             minHeight="100vh"
@@ -147,11 +153,12 @@ export default function Dashboard(props) {
               <Box>
                 <Navbar
                   onOpen={onOpen}
-                  logoText={'Event Management System'}
-                  brandText={getActiveRoute(routes)}
-                  secondary={getActiveNavbar(routes)}
-                  message={getActiveNavbarText(routes)}
+                  logoText={'System Administration'}
+                  brandText={getActiveRoute(systemAdminRoutes)}
+                  secondary={getActiveNavbar(systemAdminRoutes)}
+                  message={getActiveNavbarText(systemAdminRoutes)}
                   fixed={fixed}
+                  isSystemAdmin={true}
                   {...rest}
                 />
               </Box>
@@ -166,10 +173,10 @@ export default function Dashboard(props) {
                 pt="50px"
               >
                 <Routes>
-                  {getRoutes(routes)}
+                  {getRoutes(systemAdminRoutes)}
                   <Route
                     path="/"
-                    element={<Navigate to="/admin/default" replace />}
+                    element={<Navigate to="/system-admin/dashboard" replace />}
                   />
                 </Routes>
               </Box>
@@ -183,3 +190,4 @@ export default function Dashboard(props) {
     </LayoutWrapper>
   );
 }
+

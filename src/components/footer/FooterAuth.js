@@ -8,8 +8,11 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+// Language Context
+import { useLanguage } from "contexts/LanguageContext";
 
 export default function Footer() {
+  const { t } = useLanguage();
   let textColor = useColorModeValue("gray.400", "white");
   let linkColor = useColorModeValue({ base: "gray.400", lg: "white" }, "white");
   return (
@@ -33,18 +36,9 @@ export default function Footer() {
           xl: "start",
         }}
         mb={{ base: "20px", lg: "0px" }}>
-        {" "}
-        &copy; {1900 + new Date().getYear()}
-        <Text as='span' fontWeight='500' ms='4px'>
-          Horizon UI. All Rights Reserved. Made with love by
-          <Link
-            mx='3px'
-            color={textColor}
-            href='https://www.simmmple.com?ref=horizon-chakra-free'
-            target='_blank'
-            fontWeight='700'>
-            Simmmple!
-          </Link>
+        &copy; {1900 + new Date().getYear()}{" "}
+        <Text as='span' fontWeight='500' ms='4px'> 
+          {t("footer.copyright")}
         </Text>
       </Text>
       <List display='flex'>

@@ -2,10 +2,15 @@
 import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Link, Text, useColorModeValue } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import AdminNavbarLinks from 'components/navbar/NavbarLinksAdmin';
+import routes from 'routes.js';
+import { useLanguage } from 'contexts/LanguageContext';
 
 export default function AdminNavbar(props) {
 	const [ scrolled, setScrolled ] = useState(false);
+	const location = useLocation();
+	const { t } = useLanguage();
 
 	useEffect(() => {
 		window.addEventListener('scroll', changeNavbar);
@@ -16,6 +21,35 @@ export default function AdminNavbar(props) {
 	});
 
 	const { secondary, message, brandText } = props;
+
+	// Get current page name from route
+	const getCurrentPageName = () => {
+		const currentPath = location.pathname;
+		for (let i = 0; i < routes.length; i++) {
+			if (routes[i].layout === '/admin' && currentPath.includes(routes[i].path)) {
+				return routes[i].name;
+			}
+		}
+		return brandText || 'Dashboard';
+	};
+
+	const currentPageName = getCurrentPageName();
+
+	// Get translated page name
+	const getTranslatedPageName = (pageName) => {
+		const pageNameMap = {
+			'Main Dashboard': t('nav.mainDashboard'),
+			'Events': t('nav.events'),
+			'Tickets': t('nav.tickets'),
+			'Attendees': t('nav.attendees'),
+			'Orders': t('nav.orders'),
+			'Settings': t('nav.settings'),
+			'Profile': t('nav.profile'),
+			'Data Tables': t('nav.dataTables'),
+			'NFT Marketplace': t('nav.nftMarketplace'),
+		};
+		return pageNameMap[pageName] || pageName;
+	};
 
 	// Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
 	let mainText = useColorModeValue('navy.700', 'white');
@@ -91,13 +125,13 @@ export default function AdminNavbar(props) {
 					<Breadcrumb>
 						<BreadcrumbItem color={secondaryText} fontSize='sm' mb='5px'>
 							<BreadcrumbLink href='#' color={secondaryText}>
-								Pages
+								{t('nav.pages')}
 							</BreadcrumbLink>
 						</BreadcrumbItem>
 
 						<BreadcrumbItem color={secondaryText} fontSize='sm' mb='5px'>
 							<BreadcrumbLink href='#' color={secondaryText}>
-								{brandText}
+								{getTranslatedPageName(currentPageName)}
 							</BreadcrumbLink>
 						</BreadcrumbItem>
 					</Breadcrumb>
@@ -118,7 +152,7 @@ export default function AdminNavbar(props) {
 						_focus={{
 							boxShadow: 'none'
 						}}>
-						{brandText}
+						{getTranslatedPageName(currentPageName)}
 					</Link>
 				</Box>
 				<Box ms='auto' w={{ sm: '100%', md: 'unset' }}>

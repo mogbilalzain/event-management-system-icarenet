@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import {} from 'react-router-dom';
 import AuthLayout from './layouts/auth';
 import AdminLayout from './layouts/admin';
+import SystemAdminLayout from './layouts/systemAdmin';
 import RTLLayout from './layouts/rtl';
 import {
   ChakraProvider,
@@ -23,6 +24,12 @@ export default function Main() {
           path="admin/*"
           element={
             <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
+          }
+        />
+        <Route
+          path="system-admin/*"
+          element={
+            <SystemAdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
           }
         />
         <Route
